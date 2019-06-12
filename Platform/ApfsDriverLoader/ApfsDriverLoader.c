@@ -128,11 +128,13 @@ StartApfsDriver (
   DEBUG ((DEBUG_VERBOSE, "ImageSize before verification: %lu\n", EfiFileSize));
 
   DEBUG ((DEBUG_VERBOSE, "Verifying binary signature\n"));
+#if 0
   Status = VerifyApplePeImageSignature (
     EfiFileBuffer,
     &EfiFileSize,
     NULL
     );
+#endif
 
   DEBUG ((DEBUG_VERBOSE, "New ImageSize after verification: %lu\n", EfiFileSize));
 
@@ -459,6 +461,7 @@ ApfsDriverLoaderSupported (
   APPLE_PARTITION_INFO_PROTOCOL *ApplePartitionInfo          = NULL;
   EFI_PARTITION_INFO_PROTOCOL   *Edk2PartitionInfo           = NULL;
 
+  DEBUG ((DEBUG_VERBOSE, "In ApfsDriverLoaderSupported()\n"));
   Status = gBS->OpenProtocol (
     ControllerHandle,
     &gApfsEfiBootRecordInfoProtocolGuid,
@@ -1211,6 +1214,9 @@ ApfsDriverLoaderInit (
     &gApfsDriverLoaderComponentName,
     &gApfsDriverLoaderComponentName2
     );
+  ASSERT_EFI_ERROR (Status);
+
+  DEBUG ((DEBUG_VERBOSE, "ApfsDriverLoaderInit() finished\n"));
 
   return Status;
 }
